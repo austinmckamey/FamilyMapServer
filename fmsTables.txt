@@ -1,0 +1,46 @@
+CREATE TABLE "AuthToken" (
+	"authToken"	TEXT NOT NULL UNIQUE,
+	"username"	TEXT NOT NULL,
+	PRIMARY KEY("authToken"),
+	FOREIGN KEY("username") REFERENCES "User"("username")
+);
+
+CREATE TABLE "Event" (
+	"eventID"	TEXT NOT NULL UNIQUE,
+	"associatedUsername"	TEXT NOT NULL,
+	"personID"	TEXT NOT NULL,
+	"latitude"	REAL NOT NULL,
+	"longitude"	REAL NOT NULL,
+	"country"	TEXT NOT NULL,
+	"city"	TEXT NOT NULL,
+	"eventType"	TEXT NOT NULL,
+	"year"	INTEGER NOT NULL,
+	PRIMARY KEY("eventID"),
+	FOREIGN KEY("personID") REFERENCES "Person"("personID"),
+	FOREIGN KEY("associatedUsername") REFERENCES "User"("username")
+);
+
+CREATE TABLE "Person" (
+	"personID"	TEXT NOT NULL UNIQUE,
+	"associatedUsername"	TEXT NOT NULL,
+	"firstName"	TEXT NOT NULL,
+	"lastName"	TEXT NOT NULL,
+	"gender"	TEXT NOT NULL,
+	"motherID"	TEXT,
+	"fatherID"	TEXT,
+	"spouseID"	TEXT,
+	PRIMARY KEY("personID"),
+	FOREIGN KEY("associatedUsername") REFERENCES "User"("username")
+);
+
+CREATE TABLE "User" (
+	"username"	TEXT NOT NULL UNIQUE,
+	"password"	TEXT NOT NULL,
+	"email"	TEXT NOT NULL,
+	"firstName"	TEXT NOT NULL,
+	"lastName"	TEXT NOT NULL,
+	"gender"	TEXT NOT NULL,
+	"personID"	TEXT NOT NULL,
+	PRIMARY KEY("username"),
+	FOREIGN KEY("personID") REFERENCES "Person"("personID")
+);
